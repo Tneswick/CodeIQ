@@ -1,0 +1,109 @@
+body {
+    background-color: var(--secondary-color);
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+header {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+}
+
+header div {
+    display: flex;
+    background-color: var(--tertiary-color);
+    border-radius: 25px 25px 50px 50px;
+    border: solid 3px var(--primary-color);
+    max-width: 50vw;
+    justify-content: center;
+    max-height: fit-content;
+    box-shadow: 1px 1px 8px rgba(0,0,0, 0.5);
+}
+
+header div h1 {
+    
+    color: var(--primary-color);
+    text-shadow: 3px 3px 8px rgba(0,0,0, 0.5);
+    padding: 5px 70px 5px 70px;
+    font-size: 10vw;
+    font-weight: bolder;
+}
+
+main {
+    display: flex;
+    margin-top: 50px;
+    justify-content: center;
+}
+
+#container {
+    display: flex;
+    flex-direction: column;
+    width: 65vw;
+}
+
+#question {
+    text-align: left;
+    border-bottom: solid 2px var(--primary-color);
+    background-color: var(--tertiary-color);
+    border-radius: 5px 40px;
+    box-shadow: 1px 1px 8px rgba(0,0,0, 0.5);
+}
+
+#question p {
+    /* width: 40vw; */
+    padding: 20px;
+    font-size: 3vw;
+    color: var(--primary-color);
+    text-shadow: 2px 2px 5px rgba(0,0,0, 0.8);
+}
+
+#options {
+    display: flex;
+    margin-top: 15px;
+    border-top: solid 2px var(--primary-color);
+    border-radius: 40px 5px 10px 10px;
+    background-color: var(--tertiary-color);
+    box-shadow: 1px 1px 8px rgba(0,0,0, 0.5);
+    height: fit-content;
+}
+
+#list {
+    padding: 20px;
+}
+
+#list li {
+    margin: 7px 0px;
+}
+
+.choices {
+    color: var(--primary-color);
+    background-color: var(--secondary-color);
+    padding: 6px;
+    border-radius: 3px;
+    font-size: 2vw;
+    text-shadow: 1px 1px 3px rgba(0,0,0, 0.4);
+    border: solid 1px var(--primary-color);
+}
+
+.choices:hover {
+    background-color: var(--hover-color);
+    border: solid 1px white;
+}
+
+#result {
+    display: flex;
+    justify-content: space-between;
+}
+
+#result-text {
+    /* display: none; */
+}
+
+#result h2 {
+    padding: 20px;
+    font-size: 3vw;
+    color: var(--primary-color);
+    text-shadow: 2px 2px 5px rgba(0,0,0, 0.8);
+    font-style: italic;
+}
+
