@@ -72,7 +72,7 @@ main {
 }
 
 #list li {
-    margin: 7px 0px;
+    margin: 10px 0px;
 }
 
 .choices {
@@ -83,6 +83,7 @@ main {
     font-size: 2vw;
     text-shadow: 1px 1px 3px rgba(0,0,0, 0.4);
     border: solid 1px var(--primary-color);
+    box-shadow: 1px 2px 4px rgba(0,0,0, 0.5);
 }
 
 .choices:hover {
@@ -96,7 +97,7 @@ main {
 }
 
 #result-text {
-    /* display: none; */
+    display: none;
 }
 
 #result h2 {
@@ -107,3 +108,6 @@ main {
     font-style: italic;
 }
 
+.hidden {
+    display: none;
+}

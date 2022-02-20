@@ -16,27 +16,25 @@
     </header>
     <main>
         <div id="container">
-            <div id="question">
-                <p>What does HTML stand for?
+            <div id="question" class="hidden">
+                <p id="question-text">
                 </p>    
             </div>
 
-            <div id="options">
-                <ul id="list">
-                    <li><button class="choices" id="btn1">lorem</button></li>
-                    <li><button class="choices" id="btn2">ipsum</button></li>
-                    <li><button class="choices" id="btn3">dolor</button></li>
+            <div id="options" class="hidden">
+                <ul id="list" class="hidden">
+                    <li><button class="choices" id="btn1"></button></li>
+                    <li><button class="choices" id="btn2"></button></li>
+                    <li><button class="choices" id="btn3"></button></li>
                 </ul>
             </div>
 
-            <div id="result">
-                <h2 id="result-text">Correct!</h2>
-                <h2 id="timer">Timer: </h2>
+            <div id="result" class="hidden">
+                <h2 id="result-text"></h2>
+                <h2 id="timer" class="hidden">Timer: 60</h2>
             </div>
         </div>
     </main>
-
-
 
     <script src="./assets/js/script.js"></script>
 </body>
