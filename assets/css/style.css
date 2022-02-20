@@ -57,6 +57,16 @@ main {
     text-shadow: 2px 2px 5px rgba(0,0,0, 0.8);
 }
 
+#instructions {
+    /* width: 40vw; */
+    padding: 20px;
+    font-size: 2.5vw;
+    text-align: center;
+    color: var(--primary-color);
+    text-shadow: 2px 2px 5px rgba(0,0,0, 0.8);
+    line-height: 1.5;
+}
+
 #options {
     display: flex;
     margin-top: 15px;
@@ -110,4 +120,9 @@ main {
 
 .hidden {
     display: none;
+}
+
+#start-button {
+    margin-top: 20px;
+    font-size: 5vw;
 }
