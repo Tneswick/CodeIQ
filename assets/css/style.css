@@ -106,10 +106,6 @@ main {
     justify-content: space-between;
 }
 
-#result-text {
-    display: none;
-}
-
 #result h2 {
     padding: 20px;
     font-size: 3vw;
