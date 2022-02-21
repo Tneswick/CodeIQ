@@ -57,48 +57,56 @@ var instructionsEl = document.getElementById("instructions");
 var optionsEl = document.getElementById("options");
 var listEl = document.getElementById("list");
 var containerEl = document.getElementById("container");
-
+var highScoresDivEl = document.getElementById("high-scores");
+var highScoresListEl = document.getElementById("high-scores-list");
+var inputFieldEl = document.getElementById("initials-box");
+var inputSubmitEl = document.getElementById("initials-submit");
 
 
 // game start
-var startGame = function() {
+var startGame = function(stopper) {
     // hide start button and instructions
     startButtonEl.className = instructionsEl.className = "hidden";
     
     // unhide question div, answer div, and timer
     questionDivEl.className = optionsEl.className = listEl.className = timerEl.className = containerEl.className = "";
 
-    // timer logic
-    var startTimer = setInterval(function(){
-        
-        if (count >= 1) {
-            count--;
-            timerEl.textContent = " Timer: " + count;
-        } else {
-            timerEl.textContent = "Time's Up!"
-            setTimeout (gameOver, 2000);
-            clearInterval(startTimer);
-            endGame();
-        }
-    }, 1000);
+    if (stopper === 2) {
+        count = 50;
+        questionIdNum = 0;
+        score = 0;
 
-    // send to questions handler
-    questionsHandler();
+        // timer logic
+        var startTimer = setInterval(function(){
+            count--;
+            timerEl.textContent = "Timer: " + count;
+            if (count <= 0) {
+                timerEl.textContent = "Time's Up!";
+                clearInterval(startTimer);
+                // pass count of 1 to endgame
+                endGame(1);
+            }; 
+        }, 1000);
+    };
+
+    
+
+    if (stopper === 1) {
+        clearInterval(startTimer);
+        timerEl.textContent = "Time left: " + count;
+        endGame(count);
+    } else {
+        // send to questions handler
+        questionsHandler();
+    }
 }
 
 var questionsHandler = function() {
-    // check that there are still questions to ask
-    if (questionIdNum >= questions.length) {
-        clearInterval(startTimer);
-        endGame();
-    } else {
-        // build question
-        questionEl.textContent = questions[questionIdNum].q;
-        btn1El.textContent = questions[questionIdNum].options[0];
-        btn2El.textContent = questions[questionIdNum].options[1];
-        btn3El.textContent = questions[questionIdNum].options[2];
-    }
-
+    // build question
+    questionEl.textContent = questions[questionIdNum].q;
+    btn1El.textContent = questions[questionIdNum].options[0];
+    btn2El.textContent = questions[questionIdNum].options[1];
+    btn3El.textContent = questions[questionIdNum].options[2];
 };
 
 // functions for button presses, pass 'answer' into checkAnswer
@@ -118,30 +126,75 @@ var checkAnswer = function(answer) {
         resultTextEl.className = "";
         resultTextEl.textContent = "Correct!";
         questionIdNum++;
-        // proceed to next question
-        questionsHandler();
     } else {
         score = score - 2;
         resultTextEl.className = "";
         resultTextEl.textContent = "Incorrect! -10 Seconds";
         questionIdNum++;
         count = count - 10;
-        // proceed to next question
+    };
+
+    if (questionIdNum >= questions.length) {
+        debugger;
+        startGame(1);
+    } else {
         questionsHandler();
     }
 };
 
 // endGame logic
-var endGame = function() {
-    if (score <= 0) {
-        score = 1 * count;
-    } else {
-        score = score * count;
-    }
+var endGame = function(finalCount) {
+    // calculate score
+    score = finalCount * score;
     console.log(score);
 
+    questionEl.textContent = "Well done! Your final score is " + "'" + score + "'" + "! Please save your initials below if you'd like.";
+
+    // hide btns
+    btn1El.className = btn2El.className = btn3El.className = "hidden";
+
+    // unhide high-score page
+    highScoresDivEl.className = "";
+
 }
-startButtonEl.addEventListener("click", startGame);
+
+//start button click
+startButtonEl.addEventListener("click", startGame(2));
+
+// options clicks
 btn1El.addEventListener("click", option1);
 btn2El.addEventListener("click", option2);
 btn3El.addEventListener("click", option3);
+
+// high score submit and screen
+inputSubmitEl.addEventListener("click", function() {
+    // pull down high scores from local storage
+    var highScores = localStorage.getItem("high-scores");
+    if (!highScores) {
+        highScores = []
+    } else {
+        var highScores = JSON.parse(highScores);
+    };
+    // pull user's input into a variable
+    var initials = inputFieldEl.value;
+
+    // add this score to array of high-scores
+    var userScore = {
+        name: initials,
+        score: score
+    }
+    highScores.push(userScore);
+
+    var storageString = JSON.stringify(highScores);
+    localStorage.setItem("high-scores", storageString);
+    highScoreScreen();
+
+    // unhide elements
+    highScoresDivEl.className = "";
+
+    for (var i = 0; i < highScores.length; i++) {
+        var listItemEl = document.createElement("li");
+        
+
+    }
+})
