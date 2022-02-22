@@ -1,4 +1,4 @@
-# CodeIQ
+# 🧪 CodeIQ
 
 > A simple quiz, written in JavaScript, to test your knowledge of coding within HTML, CSS, and JavaScript. 
 
@@ -15,4 +15,8 @@ A 50 second timer will start when you click the 'Start' button. Answer the quest
 ## 🖥 Website
 [CodeIQ](https://tneswick.github.io/CodeIQ/)
 
-## Screenshot
+## 📷 Screenshot
+![Screenshot of the CodeIQ Website](https://github.com/Tneswick/CodeIQ/blob/main/assets/images/screenshot-of-page.png?raw=true)
+
+### ⚙ Contribution
+*Made By* **TNeswick**
