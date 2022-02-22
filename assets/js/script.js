@@ -1,37 +1,37 @@
 // questions object array
 var questions = [
     {
-        id:0,
+        id: 0,
         q: "What CSS property allows you to change the color of the background?",
         options: ["color", "set-background", "background-color:"],
         a: "background-color:"
     },
     {
-        id:1,
+        id: 1,
         q: "What does the acronym 'HTML' stand for?",
         options: ["Hypertext Markup Language", "Hypertext Markdown Language", "Hypertext Markdown Launcher"],
         a: "Hypertext Markup Language"
     },
     {
-        id:2,
+        id: 2,
         q: "What vanilla JavaScript function will return a number in the range of 0 to 1, including 0 but not including 1?",
         options: ["math.Random()", "Math.random()", "Math.Random()"],
         a: "Math.random()"
     },
     {
-        id:3,
+        id: 3,
         q: "What HTML element will display it's text onto the tab of your browser?",
         options: ["<title>", "<header>", "<tab>"],
         a: "<title>"
     },
     {
-        id:4,
+        id: 4,
         q: "What is the name of a series of items collected within brackets '[]' in JavaScript?",
         options: ["An Object", "A Variable", "An Array"],
         a: "An Array"
     },
     {
-        id:5,
+        id: 5,
         q: "What HTML attribute is used on an anchor element to open that specific link in a new tab if clicked?",
         options: ["open='new-tab'", "click='blank'", "target='blank'"],
         a: "target='blank'"
@@ -39,9 +39,10 @@ var questions = [
 ]
 
 // variables
-var count = 600;
+var count = 50;
 var questionIdNum = 0;
 var score = 0;
+
 
 // variables for dom elements
 var timerEl = document.getElementById("timer");
@@ -59,15 +60,16 @@ var listEl = document.getElementById("list");
 var containerEl = document.getElementById("container");
 var highScoresDivEl = document.getElementById("high-scores");
 var highScoresListEl = document.getElementById("high-scores-list");
+var highScoresLabelEl = document.getElementById("initials-label")
 var inputFieldEl = document.getElementById("initials-box");
 var inputSubmitEl = document.getElementById("initials-submit");
-
+var startTimer
 
 // game start
-var startGame = function(stopper) {
+var startGame = function (stopper) {
     // hide start button and instructions
     startButtonEl.className = instructionsEl.className = "hidden";
-    
+
     // unhide question div, answer div, and timer
     questionDivEl.className = optionsEl.className = listEl.className = timerEl.className = containerEl.className = "";
 
@@ -77,7 +79,7 @@ var startGame = function(stopper) {
         score = 0;
 
         // timer logic
-        var startTimer = setInterval(function(){
+        startTimer = setInterval(function () {
             count--;
             timerEl.textContent = "Timer: " + count;
             if (count <= 0) {
@@ -85,11 +87,10 @@ var startGame = function(stopper) {
                 clearInterval(startTimer);
                 // pass count of 1 to endgame
                 endGame(1);
-            }; 
+            };
         }, 1000);
     };
 
-    
 
     if (stopper === 1) {
         clearInterval(startTimer);
@@ -101,7 +102,7 @@ var startGame = function(stopper) {
     }
 }
 
-var questionsHandler = function() {
+var questionsHandler = function () {
     // build question
     questionEl.textContent = questions[questionIdNum].q;
     btn1El.textContent = questions[questionIdNum].options[0];
@@ -110,19 +111,19 @@ var questionsHandler = function() {
 };
 
 // functions for button presses, pass 'answer' into checkAnswer
-var option1 = function() {
+var option1 = function () {
     checkAnswer(0);
 };
-var option2 = function() {
+var option2 = function () {
     checkAnswer(1);
 };
-var option3 = function() {
+var option3 = function () {
     checkAnswer(2);
 };
 
-var checkAnswer = function(answer) {    
+var checkAnswer = function (answer) {
     if (questions[questionIdNum].a === questions[questionIdNum].options[answer]) {
-        score= score + 3;
+        score = score + 3;
         resultTextEl.className = "";
         resultTextEl.textContent = "Correct!";
         questionIdNum++;
@@ -135,7 +136,6 @@ var checkAnswer = function(answer) {
     };
 
     if (questionIdNum >= questions.length) {
-        debugger;
         startGame(1);
     } else {
         questionsHandler();
@@ -143,7 +143,7 @@ var checkAnswer = function(answer) {
 };
 
 // endGame logic
-var endGame = function(finalCount) {
+var endGame = function (finalCount) {
     // calculate score
     score = finalCount * score;
     console.log(score);
@@ -159,21 +159,24 @@ var endGame = function(finalCount) {
 }
 
 //start button click
-startButtonEl.addEventListener("click", startGame(2));
+startButtonEl.addEventListener("click", function () {
+    startGame(2);
+});
 
 // options clicks
 btn1El.addEventListener("click", option1);
 btn2El.addEventListener("click", option2);
 btn3El.addEventListener("click", option3);
 
-// high score submit and screen
-inputSubmitEl.addEventListener("click", function() {
+// high score submit
+inputSubmitEl.addEventListener("click", function () {
     // pull down high scores from local storage
     var highScores = localStorage.getItem("high-scores");
+
     if (!highScores) {
         highScores = []
     } else {
-        var highScores = JSON.parse(highScores);
+        highScores = JSON.parse(highScores);
     };
     // pull user's input into a variable
     var initials = inputFieldEl.value;
@@ -187,14 +190,36 @@ inputSubmitEl.addEventListener("click", function() {
 
     var storageString = JSON.stringify(highScores);
     localStorage.setItem("high-scores", storageString);
-    highScoreScreen();
+
+    // sort high scores, highest to lowest
+    // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/sort
+    var sort = highScores.sort((a, b) => {
+        return b.score - a.score
+    })
+
+    for (var i = 0; i < highScores.length; i++) {
+        var listItemEl = document.createElement("li");
+        listItemEl.innerHTML = highScores[i].name + " | " + highScores[i].score;
+        highScoresListEl.appendChild(listItemEl);
+    }
 
     // unhide elements
     highScoresDivEl.className = "";
 
-    for (var i = 0; i < highScores.length; i++) {
-        var listItemEl = document.createElement("li");
-        
+    // hide input field and submit button
+    highScoresLabelEl.className = inputFieldEl.className = inputSubmitEl.className = resultTextEl.className = timerEl.className = "hidden"
 
-    }
+    // create button to refresh the page to start new game
+    var newGame = document.createElement("button");
+    newGame.className = "choices";
+    newGame.textContent = "New Game";
+    newGame.style.marginTop = "10px";
+    resultDivEl.appendChild(newGame);
+
+    // https://stackoverflow.com/questions/5611119/how-to-make-a-refresh-button-using-javascript
+    newGame.addEventListener("click", function() {
+        window.location.reload("Refresh");
+    })
 })
+
+
